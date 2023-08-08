@@ -5,20 +5,23 @@ import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("user")
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
-    @PostMapping
+
+    @PostMapping("/save")
     public Member addUser(@RequestBody Member member) {
         return userRepository.save(member);
     }
 
     @GetMapping("/{id}")
-    public Member getUser(@PathVariable Integer id) {
-        return userRepository.findById(id).orElse(null);
+    public Optional<Member> getUser(@PathVariable Integer id) {
+        return userRepository.findById(id);
     }
 
     @PutMapping("/{id}")

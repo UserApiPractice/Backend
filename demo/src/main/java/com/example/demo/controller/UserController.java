@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.Member;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,10 +11,16 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("user")
+@ComponentScan
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(){
+        return ResponseEntity.ok().body("login");
+    }
 
     @PostMapping("/save")
     public Member addUser(@RequestBody Member member) {

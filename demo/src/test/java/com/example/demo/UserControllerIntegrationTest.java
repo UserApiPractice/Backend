@@ -1,9 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.model.Member;
-import com.example.demo.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,9 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-
-import javax.transaction.Transactional;
-
+import org.springframework.transaction.annotation.Transactional;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -37,10 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(RestDocumentationExtension.class)
+@Transactional
 class UserControllerIntegrationTest {
-
-    @Autowired
-    private UserRepository userRepository;
 
     private MockMvc mockMvc;
 
@@ -55,13 +49,6 @@ class UserControllerIntegrationTest {
                 .apply(documentationConfiguration(restDocumentationContextProvider))
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
                 .build();
-    }
-
-    @BeforeEach
-    public void tearDown() {
-        if(userRepository.existsById(100)){
-            userRepository.deleteById(100);
-        }
     }
 
     @Test

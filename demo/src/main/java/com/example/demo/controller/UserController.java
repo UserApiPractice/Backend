@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Member;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +14,17 @@ import java.util.Optional;
 @RestController
 @RequestMapping("user")
 @ComponentScan
+@RequiredArgsConstructor
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
 
+    private final MemberService memberService;
+
     @PostMapping("/login")
     public ResponseEntity<String> login(){
-        return ResponseEntity.ok().body("login");
+        return ResponseEntity.ok().body(memberService.login("",""));
     }
 
     @PostMapping("/save")

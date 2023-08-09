@@ -1,0 +1,22 @@
+= User API
+:doctype: book
+:icons: front
+:source-highlighter: highlightsjs
+:toc: left
+:toclevels: 1
+
+[[Users-save]]
+== Users-save
+operation::Users-save[]
+
+[[Users-findById]]
+== Users-findById
+operation::Users-findById[]
+
+[[Users-update]]
+== Users-update
+operation::Users-update[]
+
+[[Users-delete]]
+== Users-delete
+operation::Users-delete[]

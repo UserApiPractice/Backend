@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.Member;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -20,8 +21,14 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Member> getUser(@PathVariable Integer id) {
-        return userRepository.findById(id);
+    public ResponseEntity<Member> getUser(@PathVariable Integer id) {
+        Optional<Member> memberOptional = userRepository.findById(id);
+        if (memberOptional.isPresent()) {
+            Member member = memberOptional.get();
+            return ResponseEntity.ok(member);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberService {
 
-    @Value("${jwt.secret")
+    @Value("${jwt.secret}")
     private String secretKey;
 
     private Long expiredMs = 1000 * 60 * 60l;

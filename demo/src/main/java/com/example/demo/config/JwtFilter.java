@@ -40,12 +40,16 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = authorization.split(" ")[1];
 
         if(JwtUtil.isExpired(token, secretKey)){
+            log.info("token : {}", token);
+            log.info("secretKey : {}", secretKey);
+
             log.error("Token이 만료되었습니다.");
             filterChain.doFilter(request, response);
             return;
         };
 
-        String username = "";
+        String username = JwtUtil.getUserNanme(token, secretKey);
+        log.info("username : {}", username);
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, null, List.of(new SimpleGrantedAuthority("USER")));

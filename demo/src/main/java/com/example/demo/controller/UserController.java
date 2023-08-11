@@ -4,6 +4,7 @@ import com.example.demo.model.LoginRequest;
 import com.example.demo.model.Member;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.MemberService;
+import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +34,14 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public Member addUser(@RequestBody Member member) {
-        return userRepository.save(member);
+    public ResponseEntity<String> addUser (@RequestBody Member member) {
+        Optional<Member> existingMember  = userRepository.findById(member.getUserId());
+        if(existingMember.isPresent()) {
+            return ResponseEntity.ok().body("중복 회원입니다.");
+        }else{
+            userRepository.save(member);
+            return ResponseEntity.ok().body("회원 가입되셨습니다.");
+        }
     }
 
     @GetMapping("/{id}")

@@ -6,7 +6,6 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
@@ -15,7 +14,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("user")
-@ComponentScan
 @RequiredArgsConstructor
 public class UserController {
 
@@ -26,13 +24,17 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest dto){
-        return ResponseEntity.ok().body(memberService.login(dto.getUserName(), ""));
+        return ResponseEntity.ok().body(memberService.login(dto.getUserName()));
+    }
+
+    @GetMapping("/loginCheck")
+    public ResponseEntity<String> loginCheck(Authentication authentication){
+        return ResponseEntity.ok().body(authentication.getName() +"님이 로그인 하셨습니다.");
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> addUser(@RequestBody Member member,Authentication authentication) {
-        userRepository.save(member);
-        return ResponseEntity.ok().body(authentication.getName() + "님이 회원을 등록하였습니다.");
+    public Member addUser(@RequestBody Member member) {
+        return userRepository.save(member);
     }
 
     @GetMapping("/{id}")
